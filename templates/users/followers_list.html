@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}Followers{% endblock %}
+
+{% block content %}
+
+    <h2>Followers</h2>
+    <div>
+        {% for user in followers %}
+            <div>
+                <img src="{% thumbnail user.profile_picture 50x50 crop %}" alt=""/>
+                {% if user.first_name %}
+                    {{ user.first_name }}
+                {% endif %}
+                {% if user.last_name %}
+                    {{ user.last_name }}
+                {% endif %}
+                <br>
+                <a href="{% url 'users:user_detail' user.username %}"><small>@{{ user.username }}</small></a><br>
+                {% if user.posts.last != None %}
+                    {{ user.posts.last }}
+                {% endif %}
+                {% if user.posts.last.image %}
+                    <img src="{{ post.image.url }}" alt="">
+                {% endif %}
+
+                {% if request.user not in user.followers.all %}
+                    <a href="{% url 'users:follow_to_user' user.id %}">Follow</a>
+                {% else %}
+                    <a href="{% url 'users:unfollow_from_user' user.id %}">Unfollow</a>
+                {% endif %}
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.username }} - details{% endblock %}
+
+{% block content %}
+
+    {% if user.profile_picture %}
+        <img src="{{ user.profile_picture.url }}" alt=""><br>
+    {% endif %}
+
+    <h2>User: {{ user.username }}</h2>
+
+    <div>
+        {% if user.first_name %}
+            <p><small>First name: </small>{{ user.first_name }}</p>
+        {% endif %}
+        {% if user.last_name %}
+            <p><small>Last name: </small>{{ user.last_name }}</p>
+        {% endif %}
+        <br>
+        {% if user.posts.last.image %}
+            <img src="{{ post.image.url }}" alt="">
+        {% endif %}
+        {% if user.posts.last != None %}
+            <p><small>Last post: </small>{{ user.posts.last }}</p>
+            <a href="{% url 'blog:posts' user %}">More posts...</a>
+        {% endif %}
+        <hr>
+        {% if request.user not in user.blockers.all %}
+            <a href="{% url 'users:block_user' user.username %}">Block</a>
+        {% else %}
+            <a href="{% url 'users:unblock_user' user.username %}">Unblock</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

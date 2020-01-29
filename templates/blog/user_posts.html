@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }} posts{% endblock %}
+
+{% block content %}
+    <h1>{{ user.username }} posts</h1>
+    <div>
+        {% for post in posts %}
+            <div>
+                {{ post.message }}<br>
+                {% if post.image %}<br>
+                    <img src="{{ post.image.url }}" alt="">
+                {% endif %}
+                {{ post.description }}
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

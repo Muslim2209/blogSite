@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}New Post created{% endblock %}
+
+{% block content %}
+
+    <h2>New Post created</h2>
+    <div>
+        {{ new_post.message }}<br>
+        {% if new_post.image %}
+            <img src="{{ new_post.image.url }}" alt=""><br>
+        {% endif %}
+        {{ new_post.description }}
+    </div>
+
+{% endblock %}

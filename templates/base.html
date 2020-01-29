@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-2">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'blog:dashboard' %}">Blog site</a>
+        {% if request.user.is_authenticated %}
+
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li {% if section == "dashboard" %}class="nav-item"{% else %}class="nav-item"{% endif %}>
+                    <a class="nav-link" href="{% url "blog:dashboard" %}">My dashboard</a>
+                </li>
+                <li {% if section == "posts" %}class="nav-item"{% else %}class="nav-item"{% endif %}>
+                    <a class="nav-link" href="{% url "blog:posts" request.user.username %}">My Posts</a>
+                </li>
+                <li {% if section == "followed" %}class="nav-item"{% else %}class="nav-item"{% endif %}>
+                    <a class="nav-link" href="{% url "users:followed_to_list" %}">Followed users</a>
+                </li>
+                <li {% if section == "followers" %}class="nav-item"{% else %}class="nav-item"{% endif %}>
+                    <a class="nav-link" href="{% url "users:followers_list" %}">Followers</a>
+                </li>
+                <li {% if section == "explore" %}class="nav-item"{% else %}class="nav-item"{% endif %}>
+                    <a class="nav-link" href="{% url "users:users_list" %}">Explore</a>
+                </li>
+            </ul>
+        {% endif %}
+
+        <span class="user">
+      {% if request.user.is_authenticated %}
+          Hello {{ request.user.first_name }}<br><a href="{% url 'users:logout' %}">Log out</a>
+      {% endif %}
+    </span>
+    </nav>
+
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>

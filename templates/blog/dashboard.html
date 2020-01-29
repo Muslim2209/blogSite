@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+    <div>
+        <h3>Add new post</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ post_form.as_p }}
+            <input class="btn btn-info" type="submit" value="Post">
+        </form>
+    </div>
+    <div>
+        <h3>What's happening</h3>
+        <div>
+            <ul>
+                {% for post in posts %}
+                    <li>
+                        {{ post.author }}<br>
+                        {{ post.message }}<br>
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="no-image"><br>
+                        {% endif %}
+                        {{ post.description }}
+                    </li>
+                    <hr>
+                    <h6>Comments</h6>
+                    {% for comment in comments %}
+                        <p><small><a
+                                href="{% url 'users:user_detail' comment.author.username %}">{{ comment.author }}</a></small>
+                        </p>
+                        <p>{{ comment.text }}</p><br>
+                    {% endfor %}
+                    <a href="{% url 'blog:comments_list' %}">More comments</a>
+                    <form action="." method="post">
+                        {% csrf_token %}
+                        {{ comment_form.as_table }}
+                        <input type="submit" class="btn btn-info" value="Add">
+                    </form>
+                    <hr>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
